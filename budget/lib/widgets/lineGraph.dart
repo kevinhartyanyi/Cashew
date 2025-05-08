@@ -61,7 +61,7 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-          right: 15 + extraHorizontalPadding, top: 8, bottom: 0),
+          right: 15 + extraHorizontalPadding, top: 0, bottom: 0, left: 0),
       child: GestureDetector(
         child: LineChart(
           data,
@@ -258,18 +258,18 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
                 : ((widget.maxPair.y - widget.minPair.y) /
                         (getIsFullScreen(context) ? 7 : 4))
                     .abs(),
-            reservedSize: 7 +
+            reservedSize: 0 +
                 (widget.minPair.y <= -10000
-                    ? 55
+                    ? 45
                     : widget.minPair.y <= -1000
-                        ? 45
+                        ? 35
                         : widget.minPair.y <= -100
-                            ? 40 + widget.extraLeftPaddingIfSmall / 2
+                            ? 30 + widget.extraLeftPaddingIfSmall / 2
                             : (widget.maxPair.y >= 100
-                                    ? (widget.maxPair.y >= 1000 ? 37 : 33)
-                                    : 25 + widget.extraLeftPaddingIfSmall) +
+                                    ? (widget.maxPair.y >= 1000 ? 32 : 28)
+                                    : 20 + widget.extraLeftPaddingIfSmall) +
                                 extraHorizontalPadding) +
-                10 +
+                8 +
                 measureCurrencyStringExtraWidth(
                     Provider.of<AllWallets>(context)),
             // This interval needs more work
@@ -689,7 +689,7 @@ class LineChartWrapper extends StatelessWidget {
     return ClipRect(
       child: Container(
         // Left padding is omitted and added in the reserved size of the side titles
-        margin: EdgeInsets.only(bottom: 12, top: 18, right: 7),
+        margin: EdgeInsets.only(bottom: 12, top: 18, right: 2),
         height: MediaQuery.sizeOf(context).width > 700 ? 300 : 175,
         child: _LineChart(
           spots: convertPoints(filterPointsList(points)),
