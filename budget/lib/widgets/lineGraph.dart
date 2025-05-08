@@ -458,12 +458,11 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
       color: widget.colors.length > 0
           ? lightenPastel(widget.colors[index], amount: 0.3)
           : lightenPastel(widget.color, amount: 0.3),
-      barWidth: 3,
+      barWidth: 2,
       isStrokeCapRound: true,
       dotData: FlDotData(show: false),
       isCurved: widget.isCurved,
-      curveSmoothness:
-          appStateSettings["removeZeroTransactionEntries"] ? 0.1 : 0.3,
+      curveSmoothness: 0.6, //appStateSettings["removeZeroTransactionEntries"] ? 0.1 : 0.3,
       preventCurveOverShooting: true,
       preventCurveOvershootingThreshold: 8,
       aboveBarData: BarAreaData(
