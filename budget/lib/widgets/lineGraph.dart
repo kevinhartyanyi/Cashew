@@ -234,7 +234,7 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: MediaQuery(
                   data: MediaQuery.of(context)
-                      .copyWith(textScaler: TextScaler.linear(1.0)),
+                      .copyWith(textScaler: TextScaler.linear(0.9)),
                   child: TextFont(
                     overflow: TextOverflow.fade,
                     maxLines: 1,
