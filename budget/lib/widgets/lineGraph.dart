@@ -719,16 +719,6 @@ class LineChartWrapper extends StatelessWidget {
                       letterSpacing: -0.5, // Tighter letter spacing
                     ),
                   ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    points[0].last.y >= 0
-                        ? Icons.arrow_upward_rounded // Rounded icons
-                        : Icons.arrow_downward_rounded,
-                    size: 14, // Smaller icon
-                    color: points[0].last.y >= 0
-                        ? Colors.green.shade600.withOpacity(0.8)
-                        : Colors.red.shade600.withOpacity(0.8),
-                  ),
                 ],
               ),
             ),
