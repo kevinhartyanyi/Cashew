@@ -462,7 +462,8 @@ class _LineChartState extends State<_LineChart> with WidgetsBindingObserver {
       isStrokeCapRound: true,
       dotData: FlDotData(show: false),
       isCurved: widget.isCurved,
-      curveSmoothness: 0.6, //appStateSettings["removeZeroTransactionEntries"] ? 0.1 : 0.3,
+      curveSmoothness:
+          0.6, //appStateSettings["removeZeroTransactionEntries"] ? 0.1 : 0.3,
       preventCurveOverShooting: true,
       preventCurveOvershootingThreshold: 8,
       aboveBarData: BarAreaData(
@@ -679,33 +680,86 @@ class LineChartWrapper extends StatelessWidget {
     Pair maxPair = getMaxPoint(points);
     Pair minPair = getMinPoint(points);
     if (maxPair.y == minPair.y) {
-      // minPair.y = minPair.y - 1;
       maxPair.y = maxPair.y + 1;
     }
-    if (maxPair.x == minPair.x) {
-      // minPair.y = minPair.y - 1;
-      // maxPair.x = maxPair.x + 1;
-    }
-    return ClipRect(
-      child: Container(
-        // Left padding is omitted and added in the reserved size of the side titles
-        margin: EdgeInsets.only(bottom: 12, top: 18, right: 2),
-        height: MediaQuery.sizeOf(context).width > 700 ? 300 : 175,
-        child: _LineChart(
-          spots: convertPoints(filterPointsList(points)),
-          maxPair: maxPair,
-          minPair: minPair,
-          color: color == null ? Theme.of(context).colorScheme.primary : color!,
-          isCurved: isCurved,
-          endDate: endDate,
-          verticalLineAt: verticalLineAt,
-          horizontalLineAt: horizontalLineAt,
-          enableTouch: enableTouch,
-          colors: colors,
-          extraLeftPaddingIfSmall: extraLeftPaddingIfSmall,
-          amountBefore: amountBefore,
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min, // Add this
+      children: [
+        if (points.isNotEmpty && points[0].isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(left: 16, bottom: 12),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: color?.withOpacity(0.05) ?? // Reduced opacity
+                    Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(8), // Smaller radius
+                border: Border.all(
+                  color: color?.withOpacity(0.1) ?? // Reduced border opacity
+                      Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  width: 0.5, // Thinner border
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    getWordedNumber(
+                      context,
+                      Provider.of<AllWallets>(context, listen: false),
+                      points[0].last.y,
+                    ),
+                    style: TextStyle(
+                      fontSize: 16, // Slightly smaller
+                      fontWeight: FontWeight.w600, // Slightly less bold
+                      color: (color ?? Theme.of(context).colorScheme.primary)
+                          .withOpacity(0.8), // Slightly transparent
+                      letterSpacing: -0.5, // Tighter letter spacing
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(
+                    points[0].last.y >= 0
+                        ? Icons.arrow_upward_rounded // Rounded icons
+                        : Icons.arrow_downward_rounded,
+                    size: 14, // Smaller icon
+                    color: points[0].last.y >= 0
+                        ? Colors.green.shade600.withOpacity(0.8)
+                        : Colors.red.shade600.withOpacity(0.8),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        SizedBox(
+          height: MediaQuery.of(context).size.width > 700
+              ? 300
+              : 200, // Adjust these values as needed
+          child: ClipRect(
+            child: Container(
+              margin: EdgeInsets.only(bottom: 12, right: 2),
+              child: _LineChart(
+                spots: convertPoints(filterPointsList(points)),
+                maxPair: maxPair,
+                minPair: minPair,
+                color: color == null
+                    ? Theme.of(context).colorScheme.primary
+                    : color!,
+                isCurved: isCurved,
+                endDate: endDate,
+                verticalLineAt: verticalLineAt,
+                horizontalLineAt: horizontalLineAt,
+                enableTouch: enableTouch,
+                colors: colors,
+                extraLeftPaddingIfSmall: extraLeftPaddingIfSmall,
+                amountBefore: amountBefore,
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

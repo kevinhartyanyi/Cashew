@@ -221,6 +221,8 @@ class PastSpendingGraph extends StatelessWidget {
                       if (points.length <= 1 && hideIfOnlyOneEntry == true) {
                         return SizedBox.shrink();
                       }
+                      print('Points: ${points.last}'); // Will show in Debug Console
+                      print('Total Spent Before: $totalSpentBefore');
                       lineChartWidget = LineChartWrapper(
                         points: [points],
                         isCurved: true,
