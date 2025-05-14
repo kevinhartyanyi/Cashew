@@ -291,7 +291,11 @@ Future<bool> signInAndSync(BuildContext context,
     }
     loadingIndeterminateKey.currentState?.setVisibility(false);
     return true;
-  } catch (e) {
+} catch (e, stackTrace) {
+    print("Detailed Google Sign-In Error:");
+    print("Error type: ${e.runtimeType}");
+    print("Error message: $e");
+    print("Stack trace: $stackTrace");
     print("Error syncing data after login!");
     print(e.toString());
     loadingIndeterminateKey.currentState?.setVisibility(false);
